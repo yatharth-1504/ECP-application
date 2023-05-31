@@ -1,0 +1,33 @@
+@import "../../index.css";
+
+.button-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 80%;
+  margin: auto;
+  margin-top: 15px;
+  border-radius: 12px;
+  background-color: rgb(223, 183, 178);
+
+  button {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    font-size: 14px;
+    color: white;
+    border: transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 10px;
+    background-color: rgb(220, 133, 133);
+  }
+  button:hover {
+    opacity: 0.8;
+  }
+  .img {
+    border-radius: 15px;
+    height: 30px;
+    margin-right: 5px;
+  }
+}

@@ -1,0 +1,48 @@
+@import "../../index.css";
+
+.Page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  .Form {
+    width: 40%;
+    text-align: center;
+    label {
+      text-align: left;
+      display: block;
+    }
+    h2 {
+      font-size: 20px;
+      color: rgb(134, 60, 60);
+      margin-bottom: 30px;
+    }
+    input {
+      width: 100%;
+      padding: 6px 10px;
+      margin: 15px 0;
+      border: 1px solid;
+      box-sizing: border-box;
+      display: block;
+      border-radius: 5px;
+      height: 40px;
+    }
+    .btn-wrapper {
+      width: 100%;
+      margin: 10px 0;
+
+      .submit-btn {
+        background: #984c37;
+        color: #ffffff;
+        border: 0;
+        padding: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+        width: fit-content;
+      }
+    }
+  }
+}
