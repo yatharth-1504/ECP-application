@@ -1,5 +1,4 @@
 const Student = require("../Model/student");
-const Admin = require("../Model/admin");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { studentPass } = require("../Util/index");
@@ -36,15 +35,13 @@ module.exports.studentSignIn = async (req, res) => {
 
 module.exports.adminSignIn = async (req, res) => {
   try {
-    const admin = await Admin.findOne({ email: req.body.email });
-    let passwordIsValid = bcrypt.compareSync(
-      req.body.password,
-      admin.password
-    );
+    const adminEmail = process.env.ADMIN_EMAIL;
+    if (req.body.email !== adminEmail) throw new Error("Invalid Email");
+    let passwordIsValid = req.body.password === process.env.ADMIN_PASSWORD;
     if (!passwordIsValid) {
       return res.status(401).send("Invalid Credentials");
     }
-    let token = jwt.sign({ email: admin.email }, process.env.JWT_SECRET_KEY);
+    let token = jwt.sign({ email: adminEmail }, process.env.JWT_SECRET_KEY);
     return res.status(200).send({ status: true, token: token });
   } catch (e) {
     throw new Error(e);
@@ -53,10 +50,8 @@ module.exports.adminSignIn = async (req, res) => {
 
 module.exports.studentRegisteration = async (req, res) => {
   try {
-    const admin = await Admin.findOne(req.decoded.email);
-    if (!admin || admin.email != process.env.ADMIN_EMAIL) {
-      throw new Error("Unauthorised!");
-    }
+    const adminEmail = process.env.ADMIN_EMAIL;
+    if (req.decoded.email != adminEmail) throw new Error("Unauthorised!");
     let pass = studentPass(8);
     consosle.log(pass);
     const student = new Student({
