@@ -8,4 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(router);
 
+router.use("/auth", require("./auth"));
+router.use("/notice", require("./notice"));
+
 module.exports = app;

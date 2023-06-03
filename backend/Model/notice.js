@@ -4,22 +4,18 @@ const noticeSchema = new mongoose.Schema({
   title: {
     type: String,
   },
-  description: {
+  content: {
     type: String,
   },
-  photo: {
-    type: String,
-  },
-  createdBy: {
-    type: mongoose.Schema.ObjectId,
-    ref: "ADMIN",
-    },
-    role: {
-        default: "USER",
-        
-    }
+  // photo: {
+  //   type: String,
+  // },
+  // createdBy: {
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: "User",
+  // },
 });
 
-let Notice = mongoose.model("notice", noticeSchema);
+let Notice = mongoose.model("Notice", noticeSchema);
 
 module.exports = Notice;

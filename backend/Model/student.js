@@ -69,13 +69,9 @@ const studentSchema = new mongoose.Schema({
   classMode: {
     type: String,
     required: true,
-    },
-    createdBy: {
-        type: mongoose.Schema.ObjectId,
-        ref: "user",
-    }
+  },
 });
 
-let Student = mongoose.model("student", studentSchema);
+let Student = mongoose.model("Student", studentSchema);
 
 module.exports = Student;
