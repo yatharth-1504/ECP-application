@@ -12,7 +12,7 @@ export function Notice() {
   };
 
   return (
-    <div className="Page">
+    <div className="Page" style={{ height: "100vh" }}>
       <form className="Form" onSubmit={(e) => onSubmitLogin(e)}>
         <h2>Add a Notice</h2>
         <label htmlFor="title">Title:</label>
