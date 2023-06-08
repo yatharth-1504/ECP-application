@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const noticeSchema = new mongoose.Schema(
+const resourceSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -19,6 +19,6 @@ const noticeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-let Notice = mongoose.model("Notice", noticeSchema);
+let Resource = mongoose.model("Resource", resourceSchema);
 
-module.exports = Notice;
+module.exports = Resource;

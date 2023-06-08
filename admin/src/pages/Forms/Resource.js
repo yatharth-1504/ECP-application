@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./Form.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export function Notice() {
+export function Resource() {
   const { state } = useLocation();
   const { token } = state;
 
@@ -13,7 +13,7 @@ export function Notice() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8000/notice/createnotice", {
+    fetch("http://localhost:8000/resource/createresource", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export function Notice() {
   return (
     <div className="Page" style={{ height: "100vh" }}>
       <form className="Form" onSubmit={(e) => onSubmit(e)}>
-        <h2>Add a Notice</h2>
+        <h2>Add a Resource</h2>
         <label htmlFor="title">Title:</label>
         <input
           id="title"

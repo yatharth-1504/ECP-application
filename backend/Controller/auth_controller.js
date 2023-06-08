@@ -6,7 +6,6 @@ const { studentPass } = require("../Util/index");
 module.exports.studentSignIn = async (req, res) => {
   await Student.findOne({ email: req.body.email })
     .then((student) => {
-      console.log(student);
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
         student.password
@@ -14,7 +13,10 @@ module.exports.studentSignIn = async (req, res) => {
       if (!passwordIsValid) {
         return res.status(401).send("Invalid Credentials");
       }
-      var token = jwt.sign({ _id: student._id }, process.env.JWT_SECRET_KEY);
+      var token = jwt.sign(
+        { email: student.email },
+        process.env.JWT_SECRET_KEY
+      );
       return res.status(200).send({
         student: student,
         loginSatus: true,
@@ -53,7 +55,7 @@ module.exports.studentRegisteration = async (req, res) => {
     const adminEmail = process.env.ADMIN_EMAIL;
     if (req.decoded.email != adminEmail) throw new Error("Unauthorised!");
     let pass = studentPass(8);
-    consosle.log(pass);
+    console.log(pass);
     const student = new Student({
       name: req.body.name,
       photo: req.body.photo,
@@ -89,5 +91,24 @@ module.exports.studentRegisteration = async (req, res) => {
       message: err.message,
       student: null,
     });
+  }
+};
+
+module.exports.getStudents = async (req, res) => {
+  if (req.decoded.email === process.env.ADMIN_EMAIL) {
+    return res
+      .status(200)
+      .send({ students: await Student.find().sort({ createdAt: -1 }) });
+  } else {
+    throw new Error("Unauthorised");
+  }
+};
+
+module.exports.getMe = async (req, res) => {
+  try {
+    const currentUser = await Student.findOne({ email: req.decoded.email });
+    return res.status(200).send({ currentUser });
+  } catch (e) {
+    throw new Error(e);
   }
 };

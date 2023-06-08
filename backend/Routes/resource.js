@@ -1,18 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
-const noticeController = require("../Controller/notice_controller");
+const resourceController = require("../Controller/resource_controller");
 const authMiddleWare = require("../Middleware/auth_middleware");
 
 router.post(
-  "/createnotice",
+  "/createresource",
   authMiddleWare.verify_jwt,
-  noticeController.createNotice
+  resourceController.createResource
 );
 router.get(
-  "/getnotices",
+  "/getresources",
   authMiddleWare.verify_jwt,
-  noticeController.getNotices
+  resourceController.getResources
 );
 
 module.exports = router;

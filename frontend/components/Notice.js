@@ -5,7 +5,7 @@ export function NoticeBoard({ noticeBoardData }) {
   const renderNoticeBoardItem = ({ item }) => (
     <View style={styles.noticeBoardCard}>
       <Text style={styles.noticeBoardTitle}>{item.title}</Text>
-      <Text style={styles.noticeBoardContent}>{item.content}</Text>
+      <Text style={styles.noticeBoardContent}>{item.description}</Text>
     </View>
   );
   return (
@@ -14,7 +14,7 @@ export function NoticeBoard({ noticeBoardData }) {
       <FlatList
         data={noticeBoardData}
         renderItem={renderNoticeBoardItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         contentContainerStyle={styles.noticeBoardList}
       />
     </View>

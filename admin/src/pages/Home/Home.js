@@ -2,61 +2,120 @@ import { Student } from "../../components/Card/Student";
 import { Notice } from "../../components/Card/Notice";
 import { Nav } from "../../components/Nav/Nav";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import "./Home.scss";
 
 export function Home() {
-  const state = useLocation();
+  const { state } = useLocation();
   const { token } = state;
 
   const navigate = useNavigate();
 
-  const students = [
-    {
-      name: "Yatharth",
-      email: "yatharth@gmail.com",
-      address: "D-1/409 Ashok Nagar, gali no. 13",
-    },
-    {
-      name: "Amit",
-      email: "amit@gmail.com",
-      address: "D-1/409 Ashok Nagar, gali no. 13",
-    },
-    {
-      name: "Hanu",
-      email: "hanu@gmail.com",
-      address: "D-1/409 Ashok Nagar, gali no. 13",
-    },
-  ];
+  const [students, setStudents] = useState();
+  const [err, setErr] = useState(null);
+  const [isPending, setIsPending] = useState(true);
 
-  const notices = [
-    {
-      title: "Test on Friday",
-      description: "Kindly appear for the test on friday!",
-    },
-    {
-      title: "Lorem ipsum",
-      description: "Lorem ipsum doloar lonar wabba labba dab dab!",
-    },
-  ];
+  const [notices, setNotices] = useState();
+  const [error, setError] = useState(null);
+  const [ispending, setIspending] = useState(false);
 
-  const onSearch = () => {
-    console.log("search");
+  useEffect(() => {
+    // fectch for students
+    fetch("http://localhost:8000/auth/getstudents", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: token,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setIsPending(false);
+        setStudents(data.students);
+      })
+      .catch((e) => {
+        setErr(e);
+        setIsPending(false);
+      });
+    // fectch for notices
+    fetch("http://localhost:8000/notice/getnotices", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: token,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setIspending(false);
+        setNotices(data.notices);
+      })
+      .catch((e) => {
+        setError(e);
+        setIspending(false);
+      });
+  }, []);
+
+  const onSearch = (search) => {
+    setStudents(
+      students.filter((student) =>
+        JSON.stringify(student).toLowerCase().includes(search.toLowerCase())
+      )
+    );
   };
 
-  const onAdd = () => {
-    console.log("add");
+  const onAdd_1 = () => {
     navigate("/notice", { state: { token } });
   };
 
+  const onAdd_2 = () => {
+    navigate("/resource", { state: { token } });
+  };
+
   const onRegister = () => {
-    console.log("reg");
     navigate("/register", { state: { token } });
   };
 
   return (
     <div className="Home">
-      <Nav onAdd={onAdd} onSearch={onSearch} onRegister={onRegister} />
-      <Student students={students} />
-      <Notice notices={notices} />
+      <Nav
+        onAdd_1={onAdd_1}
+        onAdd_2={onAdd_2}
+        onSearch={onSearch}
+        onRegister={onRegister}
+      />
+      {isPending && (
+        <div className="Message">
+          <h2>Loading...</h2>
+        </div>
+      )}
+      {err && (
+        <div className="Message">
+          <h2>Errors while fetching the resource...</h2>
+        </div>
+      )}
+      {!!students && <Student students={students} />}
+      {ispending && (
+        <div className="Message">
+          <h2>Loading...</h2>
+        </div>
+      )}
+      {error && (
+        <div className="Message">
+          <h2>Errors while fetching the resource...</h2>
+        </div>
+      )}
+      {!!notices && <Notice notices={notices} />}
     </div>
   );
 }

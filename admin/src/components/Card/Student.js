@@ -7,7 +7,7 @@ export function Student({ students }) {
       {students.map((student, id) => (
         <div className="Card" key={id}>
           <h3>Name: {student.name}</h3>
-          <h3>Email: {student.name}</h3>
+          <h3>Email: {student.email}</h3>
           <h3>Address: {student.address}</h3>
         </div>
       ))}

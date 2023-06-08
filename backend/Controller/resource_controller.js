@@ -1,17 +1,17 @@
-const Notice = require("../Model/notice");
+const Resource = require("../Model/resource");
 const jwt = require("jsonwebtoken");
 
-module.exports.createNotice = async (req, res) => {
+module.exports.createResource = async (req, res) => {
   try {
     const adminEmail = process.env.ADMIN_EMAIL;
     if (req.decoded.email != adminEmail) throw new Error("Unauthorised!");
-    const notice = new Notice({
+    const resource = new Resource({
       title: req.body.title,
       description: req.body.description,
     });
-    const noticeCreated = await notice.save();
+    const resourceCreated = await resource.save();
     return res.status(200).send({
-      noticeCreated,
+      resourceCreated,
     });
   } catch (err) {
     return res.status(500).send({
@@ -20,11 +20,11 @@ module.exports.createNotice = async (req, res) => {
   }
 };
 
-module.exports.getNotices = async (req, res) => {
+module.exports.getResources = async (req, res) => {
   try {
-    const notices = await Notice.find().sort({ createdAt: -1 });
+    const resources = await Resource.find().sort({ createdAt: -1 });
     return res.status(200).send({
-      notices: notices,
+      resources: resources,
     });
   } catch (error) {
     return res.status(500).send({

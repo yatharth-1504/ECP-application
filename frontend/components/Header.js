@@ -1,11 +1,13 @@
-import { Image, Text, StyleSheet, View } from "react-native";
+import { Image, Text, StyleSheet, View, TouchableOpacity } from "react-native";
 // import { createDrawerNavigator } from '@react-navigation/drawer';
 
-export function Header() {
+export function Header({ onNav, user }) {
   return (
     <View style={styles.header}>
-      <Text style={styles.headerText}>☰</Text>
-      <Image style={styles.image} source={require("../assets/login.jpg")} />
+      <Text style={styles.headerText}>Hi {user.name} 🤗</Text>
+      <TouchableOpacity onPress={e => onNav(user)}>
+        <Image style={styles.image} source={require("../assets/login.jpg")} />
+      </TouchableOpacity>
     </View>
   );
 }

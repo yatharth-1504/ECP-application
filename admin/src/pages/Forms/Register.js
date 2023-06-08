@@ -1,10 +1,16 @@
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Form.scss";
 
 export function RegisterStudent() {
+  const { state } = useLocation();
+  const { token } = state;
+
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [fatherName, setFatherName] = useState("");
-  const [email, setEmail] = useState(""); 
+  const [email, setEmail] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [gender, setGender] = useState("");
   const [studentPhone, setStudentPhone] = useState("");
@@ -14,15 +20,64 @@ export function RegisterStudent() {
   const [address, setAddress] = useState("");
   const [apartment, setApartment] = useState("");
   const [city, setCity] = useState("");
-  const [state, setState] = useState("");
+  const [_state, setState] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [country, setCountry] = useState("");
   const [classMode, setClassMode] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [imageUrl, setImageUrl] = useState();
 
   const onSubmitReg = (e) => {
     e.preventDefault();
-    console.log("Hi");
+    fetch("http://localhost:8000/auth/studentregisteration", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: token,
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        dateOfBirth,
+        fatherName,
+        gender,
+        studentPhone,
+        parentPhone,
+        studySubject,
+        course,
+        address,
+        city,
+        state: _state,
+        postalCode,
+        country,
+        classMode,
+        photo: imageUrl,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(e);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        navigate("/home", { state: { token } });
+      })
+      .catch((e) => {
+        throw new Error(e);
+      });
+  };
+
+  var openFile = function (file) {
+    var input = file.target;
+    var reader = new FileReader();
+    reader.onload = function () {
+      var dataURL = reader.result;
+      var output = document.getElementById("output");
+      output.src = dataURL;
+      setImageUrl(dataURL);
+    };
+    reader.readAsDataURL(input.files[0]);
   };
 
   return (
@@ -132,7 +187,6 @@ export function RegisterStudent() {
         <label htmlFor="apartment">Apartment:</label>
         <input
           id="apartment"
-          required
           value={apartment}
           onChange={(e) => {
             setApartment(e.target.value);
@@ -153,7 +207,7 @@ export function RegisterStudent() {
         <input
           id="state"
           required
-          value={state}
+          value={_state}
           onChange={(e) => {
             setState(e.target.value);
           }}
@@ -189,16 +243,16 @@ export function RegisterStudent() {
           }}
           placeholder="Enter your class mode"
         />
-        <label htmlFor="photo">Photo:</label>
+        <label htmlFor="uploadImage">Photo:</label>
+        <div className="upload-images">Upload images (optional)</div>
         <input
-          id="photo"
-          required
-          value={photo}
-          onChange={(e) => {
-            setPhoto(e.target.value);
-          }}
-          placeholder="Enter your photo"
+          type="file"
+          accept="image/*"
+          onChange={(e) => openFile(e)}
+          id="uploadImage"
+          name="myPhoto"
         />
+        <img className="image" id="output" alt="" />
         <div className="btn-wrapper">
           <button className="submit-btn" type="submit">
             Submit

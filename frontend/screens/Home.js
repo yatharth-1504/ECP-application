@@ -1,38 +1,102 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
-  FlatList,
-  Text,
   SafeAreaView,
   StatusBar,
+  TouchableOpacity,
+  Text,
 } from "react-native";
 import { Header } from "../components/Header";
 import { NoticeBoard } from "../components/Notice";
+import { ResourceBoard } from "../components/Resource";
+import { Refresh } from "../components/Refresh";
 
-export function Home() {
-  // Sample data for notice board cards
-  const noticeBoardData = [
-    {
-      id: "1",
-      title: "Important Notice",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      id: "2",
-      title: "Exam Schedule",
-      content:
-        "Pellentesque ac ex ullamcorper, consequat nunc vel, pulvinar odio.",
-    },
-    // Add more notice board cards here
-  ];
-  // Todo Fetch from API
+export function Home({ navigation, route }) {
+  const [notices, setNotices] = useState(null);
+  const [resources, setResources] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+  const [user, setUser] = useState(null);
+
+  const token = route.params.token;
+
+  useEffect(() => {
+    fetch("http://192.168.1.38:8000/auth/getme", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: token,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUser(data.currentUser);
+      })
+      .catch((e) => {
+        console.log(e);
+      }),
+      fetch("http://192.168.1.38:8000/notice/getnotices", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: token,
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Error");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setNotices(data.notices);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    fetch("http://192.168.1.38:8000/resource/getresources", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: token,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setResources(data.resources);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [refreshing]);
+
+  const handleRefresh = () => {
+    setRefreshing(!refreshing);
+  };
+
+  const onNav = (currUser) => {
+    navigation.navigate("Profile", { user: currUser, token });
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Header />
-        <NoticeBoard noticeBoardData={noticeBoardData} />
+        {!!user && <Header onNav={onNav} user={user} />}
+        {!!user && !!notices && <NoticeBoard noticeBoardData={notices} />}
+        {!!user && !!notices && !!resources && (
+          <ResourceBoard resourceBoardData={resources} />
+        )}
+        <Refresh handleRefresh={handleRefresh} />
       </View>
     </SafeAreaView>
   );
@@ -80,15 +144,5 @@ const styles = StyleSheet.create({
   },
   noticeBoardList: {
     flexGrow: 1,
-  },
-  footer: {
-    height: 40,
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#E0E0E0",
-  },
-  footerText: {
-    fontSize: 12,
-    color: "#555555",
   },
 });

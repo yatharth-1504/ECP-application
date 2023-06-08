@@ -3,7 +3,6 @@ const Student = require("../Model/student");
 
 module.exports.verify_jwt = (req, res, next) => {
   let token = req.headers["authorization"];
-  console.log(token);
   if (!token) {
     return res.status(403).send({
       message: "No token provided!",
@@ -16,7 +15,6 @@ module.exports.verify_jwt = (req, res, next) => {
         decodedId: null,
       });
     }
-    console.log(decoded);
     req.decoded = decoded;
     return next();
   });
