@@ -1,7 +1,7 @@
 const Student = require("../Model/student");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const { studentPass } = require("../Util/index");
+const { studentPass, mail } = require("../Util/index");
 
 module.exports.studentSignIn = async (req, res) => {
   await Student.findOne({ email: req.body.email })
@@ -80,7 +80,7 @@ module.exports.studentRegisteration = async (req, res) => {
       ),
     });
     const studentCreated = await student.save();
-    // mail({ email: studentCreated.email, OTP: pass });
+    mail({ email: studentCreated.email, OTP: pass });
     return res.status(200).send({
       student: studentCreated,
       message: "Student Created Successfully",
