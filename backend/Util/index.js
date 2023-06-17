@@ -10,6 +10,17 @@ module.exports.studentPass = (length) => {
   return result;
 };
 
+module.exports.autoGenPass = (length) => {
+  var result = "";
+  var characters = "0123456789";
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};
+module.exports.half_hour = 1800000;
+
 module.exports.mail = async (params) => {
   let config = {
     name: "example.com",
@@ -19,15 +30,15 @@ module.exports.mail = async (params) => {
       user: process.env.TEST_MAIL, // change in env
       pass: process.env.TEST_PASS, // change in env
     },
-    from: "testingserve3@gmail.com", // change here
+    from: process.env.TEST_MAIL, // change here
   };
 
   let transporter = nodemailer.createTransport(config);
 
   let info = await transporter.sendMail({
-    from: "testingserve3@gmail.com", // change here
+    from: process.env.TEST_MAIL, // change here
     to: params.email,
-    subject: "Login Password",
+    subject: "ECP Code Password",
     text: "Succesfully registered with us", // plain text body
     html: `
     <div
@@ -42,3 +53,4 @@ module.exports.mail = async (params) => {
   `,
   });
 };
+

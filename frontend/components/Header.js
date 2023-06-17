@@ -4,8 +4,8 @@ import { Image, Text, StyleSheet, View, TouchableOpacity } from "react-native";
 export function Header({ onNav, user }) {
   return (
     <View style={styles.header}>
-      <Text style={styles.headerText}>Hi {user.name} 🤗</Text>
-      <TouchableOpacity onPress={e => onNav(user)}>
+      <Text style={styles.headerText}>Hii, {user.name} 🤗</Text>
+      <TouchableOpacity onPress={(e) => onNav(user)}>
         <Image style={styles.image} source={require("../assets/login.jpg")} />
       </TouchableOpacity>
     </View>
@@ -27,9 +27,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     resizeMode: "stretch",
     margin: 20,
+    borderColor: "green",
+    borderWidth: 1,
+    borderRadius: 50,
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     padding: 10,
     color: "#555555",

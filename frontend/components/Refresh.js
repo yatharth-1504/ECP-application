@@ -12,6 +12,7 @@ export function Refresh({ handleRefresh }) {
 
 const styles = StyleSheet.create({
   refreshButton: {
+    height: 75,
     width: 65,
     backgroundColor: "#F5F5F5",
     paddingVertical: 10,

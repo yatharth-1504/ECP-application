@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const Schema = mongoose.Schema;
 const studentSchema = new mongoose.Schema(
   {
     name: {
@@ -72,7 +72,20 @@ const studentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    otp: {
+      type: "string",
+      required: false,
+    },
+    otp_time: {
+      type: "string",
+      required: false,
+    },
+    valid_otp: {
+      type: "boolean",
+      required: false,
+    },
   },
+
   {
     timestamps: true,
   }

@@ -10,12 +10,13 @@ export function NoticeBoard({ noticeBoardData }) {
   );
   return (
     <View style={styles.noticeBoard}>
-      <Text style={styles.noticeBoardHeading}>Catch up with what's going</Text>
+      <Text style={styles.noticeBoardHeading}>Notices</Text>
       <FlatList
         data={noticeBoardData}
         renderItem={renderNoticeBoardItem}
         keyExtractor={(item) => item._id}
         contentContainerStyle={styles.noticeBoardList}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );

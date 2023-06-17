@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Lottie from "lottie-react-native";
 import {
   View,
   StyleSheet,
@@ -21,7 +22,7 @@ export function Home({ navigation, route }) {
   const token = route.params.token;
 
   useEffect(() => {
-    fetch("http://192.168.1.38:8000/auth/getme", {
+    fetch("http://192.168.137.1:8000/auth/getme", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +41,7 @@ export function Home({ navigation, route }) {
       .catch((e) => {
         console.log(e);
       }),
-      fetch("http://192.168.1.38:8000/notice/getnotices", {
+      fetch("http://192.168.137.1:8000/notice/getnotices", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +60,7 @@ export function Home({ navigation, route }) {
         .catch((e) => {
           console.log(e);
         });
-    fetch("http://192.168.1.38:8000/resource/getresources", {
+    fetch("http://192.168.137.1:8000/resource/getresources", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -96,6 +97,7 @@ export function Home({ navigation, route }) {
         {!!user && !!notices && !!resources && (
           <ResourceBoard resourceBoardData={resources} />
         )}
+
         <Refresh handleRefresh={handleRefresh} />
       </View>
     </SafeAreaView>

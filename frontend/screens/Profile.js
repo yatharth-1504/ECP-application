@@ -15,15 +15,33 @@ export function Profile({ navigation, route }) {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         {/* Header */}
-        <TouchableOpacity
-          style={styles.header}
-          onPress={(e) =>
-            navigation.navigate("Home", { token: route.params.token })
-          }
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingHorizontal: 10,
+            alignItems: "center",
+            height: 65,
+          }}
         >
-          <Text style={styles.headerText}>X</Text>
-        </TouchableOpacity>
-
+          <TouchableOpacity
+            style={styles.header}
+            onPress={(e) =>
+              navigation.navigate("Home", { token: route.params.token })
+            }
+          >
+            <Text style={styles.headerText}>X</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.header}
+            onPress={(e) =>
+              navigation.navigate("Login", { token: route.params.token })
+            }
+          >
+            <Text style={styles.signout}>sign-out</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.line}></View>
         {/* Profile Info */}
         <View style={styles.profileInfo}>
           <Image
@@ -68,16 +86,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
   },
   header: {
-    height: 60,
     marginTop: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     flexDirection: "row",
     backgroundColor: "#F5F5F5",
   },
   headerText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#000000",
+    fontSize: 18,
+    fontWeight: 900,
+  },
+  signout: {
+    fontSize: 16,
   },
   profileInfo: {
     alignItems: "center",
@@ -116,5 +135,11 @@ const styles = StyleSheet.create({
   infoValue: {
     fontSize: 14,
     marginTop: 5,
+  },
+  line: {
+    height: 1,
+    width: "100%",
+    backgroundColor: "#9CA3AF",
+    // marginVertical: 10
   },
 });

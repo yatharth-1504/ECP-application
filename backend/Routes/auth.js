@@ -18,5 +18,7 @@ router.get(
 router.post("/signin", authController.studentSignIn);
 router.post("/adminsignin", authController.adminSignIn);
 router.get("/getme", authMiddleWare.verify_jwt, authController.getMe);
-
+router.post("/sendOTP", authController.__otp);
+router.post("/verifyOTP", authController.__otp);
+router.post("/resetPassword", authController.resetPassword);
 module.exports = router;

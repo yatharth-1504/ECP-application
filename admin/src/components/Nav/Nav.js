@@ -4,7 +4,7 @@ import "./Nav.scss";
 import { useState } from "react";
 
 export function Nav({ onRegister, onAdd_1, onAdd_2, onSearch }) {
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState("");
   return (
     <div className="Nav-Bar">
       <nav>
@@ -33,6 +33,7 @@ export function Nav({ onRegister, onAdd_1, onAdd_2, onSearch }) {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search for Student"
             />
           </button>
         </div>

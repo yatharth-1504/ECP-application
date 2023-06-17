@@ -21,6 +21,7 @@ export function ResourceBoard({ resourceBoardData }) {
         renderItem={renderResourceBoardItem}
         keyExtractor={(item) => item._id}
         contentContainerStyle={styles.resourceBoardList}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );

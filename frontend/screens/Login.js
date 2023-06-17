@@ -1,13 +1,23 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  ActivityIndicator,
+  Touchable,
+} from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { PageLogo } from "../components/styles";
 import { Input, Button } from "react-native-elements";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export function Login({ navigation }) {
   const [email, setEmail] = useState();
   const [password, setPass] = useState();
 
   const onLogin = () => {
-    fetch("http://192.168.1.38:8000/auth/signin", {
+    fetch("http://192.168.137.1:8000/auth/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -33,7 +43,33 @@ export function Login({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={require("../assets/login.jpg")} />
+      <StatusBar style="dark" />
+
+      <PageLogo
+        resizeMode="contain"
+        source={require("../assets/HHFavicon.png")}
+        style={{
+          width: 200,
+          height: 200,
+        }}
+      />
+      <View
+        style={{
+          fontSize: 30,
+          fontWeight: "bold",
+          marginBottom: 50,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            color: "green",
+          }}
+        >
+          Excellent Commerce Point
+        </Text>
+      </View>
       <Input
         placeholder="Your Email"
         placeholderTextColor="#888"
@@ -55,7 +91,43 @@ export function Login({ navigation }) {
         inputStyle={styles.input}
         containerStyle={styles.inputContainer}
       />
-      <Button title="Login" buttonStyle={styles.button} onPress={onLogin} />
+      <View
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Button title="Login" buttonStyle={styles.button} onPress={onLogin} />
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            marginTop: 10,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 15,
+              marginRight: 10,
+            }}
+          >
+            Forgot Password?
+          </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ForgotPassword")}
+          >
+            <Text
+              style={{
+                color: "green",
+              }}
+            >
+              Reset
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 }
@@ -69,10 +141,11 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   image: {
-    width: 250,
-    height: 250,
+    width: "100%",
+    height: 200,
     resizeMode: "stretch",
     margin: 20,
+    marginBottom: 40,
   },
   inputContainer: {
     marginBottom: 10,
@@ -82,8 +155,10 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   button: {
-    backgroundColor: "#007bff",
+    backgroundColor: "green",
     borderRadius: 5,
     marginTop: 10,
+    width: "100%",
+    height: 60,
   },
 });

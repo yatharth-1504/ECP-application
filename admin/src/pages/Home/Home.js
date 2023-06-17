@@ -35,6 +35,7 @@ export function Home() {
         return response.json();
       })
       .then((data) => {
+        console.log(data);
         setIsPending(false);
         setStudents(data.students);
       })
