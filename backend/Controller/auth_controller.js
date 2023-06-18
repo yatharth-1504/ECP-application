@@ -38,7 +38,8 @@ module.exports.studentSignIn = async (req, res) => {
 module.exports.adminSignIn = async (req, res) => {
   try {
     const adminEmail = process.env.ADMIN_EMAIL;
-    if (req.body.email !== adminEmail) throw new Error("Invalid Email");
+    if (req.body.email !== adminEmail)
+      return res.satus(200).send("Invalid Email");
     let passwordIsValid = req.body.password === process.env.ADMIN_PASSWORD;
     if (!passwordIsValid) {
       return res.status(401).send("Invalid Credentials");
@@ -46,7 +47,7 @@ module.exports.adminSignIn = async (req, res) => {
     let token = jwt.sign({ email: adminEmail }, process.env.JWT_SECRET_KEY);
     return res.status(200).send({ status: true, token: token });
   } catch (e) {
-    throw new Error(e);
+    return res.satus(200).send(err);
   }
 };
 
@@ -130,6 +131,7 @@ module.exports.__otp = async (req, res) => {
         let otp = autoGenPass(Number(process.env.OTP_LENGTH));
         const otp_time = new Date();
         mail({ email: user.email, OTP: otp });
+        console.log("here");
         user.otp = otp;
         user.otp_time = otp_time;
         const userUpdated = await user.save();
@@ -145,7 +147,6 @@ module.exports.__otp = async (req, res) => {
 module.exports.resetPassword = async (req, res) => {
   await Student.findOne({ email: req.body.email })
     .then(async (user) => {
-
       console.log(user);
       if (!user.valid_otp) return res.status(500).send("Verify OTP first");
       user.password = bcryptjs.hashSync(
