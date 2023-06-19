@@ -6,7 +6,7 @@ const authMiddleWare = require("../Middleware/auth_middleware");
 
 // signin + registeration
 router.post(
-  "/studentregisteration",
+  "/studentReg",
   authMiddleWare.verify_jwt,
   authController.studentRegisteration
 );
