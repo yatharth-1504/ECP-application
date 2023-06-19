@@ -11,7 +11,7 @@ export function Login() {
   const onSubmitLogin = (e) => {
     e.preventDefault();
     // navigate to the other page
-    fetch("http://localhost:8000/auth/adminsignin", {
+    fetch("http://13.127.252.0:8000/auth/adminsignin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

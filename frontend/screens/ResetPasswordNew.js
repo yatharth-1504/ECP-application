@@ -83,7 +83,7 @@ const ResetPasswordNew = ({ navigation, route }) => {
     try {
       handleMessage(null);
 
-      const url = "http://192.168.137.1:8000/auth/resetPassword";
+      const url = "http://13.127.252.0:8000/auth/resetPassword";
 
       const password = {
         email: email,

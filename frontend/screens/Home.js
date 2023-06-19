@@ -22,7 +22,7 @@ export function Home({ navigation, route }) {
   const token = route.params.token;
 
   useEffect(() => {
-    fetch("http://192.168.137.1:8000/auth/getme", {
+    fetch("http://13.127.252.0:8000/auth/getme", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export function Home({ navigation, route }) {
       .catch((e) => {
         console.log(e);
       }),
-      fetch("http://192.168.137.1:8000/notice/getnotices", {
+      fetch("http://13.127.252.0:8000/notice/getnotices", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export function Home({ navigation, route }) {
         .catch((e) => {
           console.log(e);
         });
-    fetch("http://192.168.137.1:8000/resource/getresources", {
+    fetch("http://13.127.252.0:8000/resource/getresources", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

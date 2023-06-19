@@ -17,7 +17,7 @@ export function Login({ navigation }) {
   const [password, setPass] = useState();
 
   const onLogin = () => {
-    fetch("http://192.168.137.1:8000/auth/signin", {
+    fetch("http://13.127.252.0:8000/auth/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

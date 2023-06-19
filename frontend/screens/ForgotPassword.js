@@ -51,7 +51,7 @@ const ForgotPassword = ({ navigation }) => {
     try {
       handleMessage(null);
 
-      const url = "http://192.168.137.1:8000/auth/sendOTP";
+      const url = "http://13.127.252.0:8000/auth/sendOTP";
       // const url = "http://192.168.1.104:8000/auth/signin";
 
       axios
@@ -123,18 +123,22 @@ const ForgotPassword = ({ navigation }) => {
                   height: 200,
                 }}
               />
-              <PageTitle style={{
-                fontSize: 25,
-              }}>Excellent Commerce Point</PageTitle>
+              <PageTitle
+                style={{
+                  fontSize: 25,
+                }}
+              >
+                Excellent Commerce Point
+              </PageTitle>
               <SubTitle
-                  style={{
-                    fontSize: 15,
-                    width: "90%",
-                    textAlign: "center",
-                  }}
-                >
-                  Provide the details below to begin the process
-                </SubTitle>
+                style={{
+                  fontSize: 15,
+                  width: "90%",
+                  textAlign: "center",
+                }}
+              >
+                Provide the details below to begin the process
+              </SubTitle>
               <Formik
                 initialValues={{
                   email: "",

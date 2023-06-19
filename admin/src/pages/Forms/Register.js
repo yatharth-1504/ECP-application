@@ -28,7 +28,7 @@ export function RegisterStudent() {
 
   const onSubmitReg = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8000/auth/studentregisteration", {
+    fetch("http://13.127.252.0:8000/auth/studentregisteration", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

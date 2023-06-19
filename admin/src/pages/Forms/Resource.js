@@ -13,7 +13,7 @@ export function Resource() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8000/resource/createresource", {
+    fetch("http://13.127.252.0:8000/resource/createresource", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

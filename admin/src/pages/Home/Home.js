@@ -21,7 +21,7 @@ export function Home() {
 
   useEffect(() => {
     // fectch for students
-    fetch("http://localhost:8000/auth/getstudents", {
+    fetch("http://13.127.252.0:8000/auth/getstudents", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export function Home() {
         setIsPending(false);
       });
     // fectch for notices
-    fetch("http://localhost:8000/notice/getnotices", {
+    fetch("http://13.127.252.0:8000/notice/getnotices", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

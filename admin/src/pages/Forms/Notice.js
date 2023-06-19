@@ -13,7 +13,7 @@ export function Notice() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8000/notice/createnotice", {
+    fetch("http://13.127.252.0:8000/notice/createnotice", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
