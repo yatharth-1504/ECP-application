@@ -28,7 +28,7 @@ export function RegisterStudent() {
 
   const onSubmitReg = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8000/auth/studentReg", {
+    fetch("http://13.127.252.0:8000/auth/studentReg", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ export function RegisterStudent() {
         navigate("/home", { state: { token } });
       })
       .catch((e) => {
-       console.log(e)
+        console.log(e);
       });
   };
 
