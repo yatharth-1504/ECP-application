@@ -1,4 +1,5 @@
 const Resource = require("../Model/resource");
+const Student = require("../Model/student");
 const jwt = require("jsonwebtoken");
 
 module.exports.createResource = async (req, res) => {
@@ -8,6 +9,7 @@ module.exports.createResource = async (req, res) => {
     const resource = new Resource({
       title: req.body.title,
       description: req.body.description,
+      course: req.body.course,
     });
     const resourceCreated = await resource.save();
     return res.status(200).send({

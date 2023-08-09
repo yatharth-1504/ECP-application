@@ -25,6 +25,11 @@ export function RegisterStudent() {
   const [country, setCountry] = useState("");
   const [classMode, setClassMode] = useState("");
   const [imageUrl, setImageUrl] = useState();
+  // const [selectedOption, setSelectedOption] = useState("");
+
+  const handleDropdownChange = (event) => {
+    setCourse(event.target.value);
+  };
 
   const onSubmitReg = (e) => {
     e.preventDefault();
@@ -55,7 +60,7 @@ export function RegisterStudent() {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error(e);
+          console.log(e);
         }
         return response.json();
       })
@@ -164,7 +169,7 @@ export function RegisterStudent() {
           }}
           placeholder="Enter your subject"
         />
-        <label htmlFor="course">Course:</label>
+        {/* <label htmlFor="course">Course:</label>
         <input
           id="course"
           required
@@ -173,7 +178,36 @@ export function RegisterStudent() {
             setCourse(e.target.value);
           }}
           placeholder="Enter your course"
-        />
+        /> */}
+        <label htmlFor="dropdown">Select Course:</label>
+        <select
+          id="dropdown"
+          value={course}
+          onChange={handleDropdownChange}
+          style={{
+            width: "100%",
+            height: "42px",
+            paddingLeft: "10px",
+            borderRadius: "5px",
+            marginTop: "10px",
+            marginBottom: "10px",
+          }}
+        >
+          <option value="">--Select Course--</option>
+          <option value="CA Foundation">CA Foundation</option>
+          <option value="CA Intermediate">CA Intermediate</option>
+          <option value="CA Final">CA Final</option>
+          <option value="CS-EET">CS-EET</option>
+          <option value="CS Executive">CS Executive</option>
+          <option value="CMA Foundation">CMA Foundation</option>
+          <option value="CMA Intermediate">CMA Intermediate</option>
+          <option value="CMA Final">CMA Final</option>
+          <option value="B. Com">B. Com</option>
+          <option value="M. Com">M. Com</option>
+          <option value="Computer Course">Computer Course</option>
+          <option value="11th">11th</option>
+          <option value="12th">12th</option>
+        </select>
         <label htmlFor="address">Address:</label>
         <input
           id="address"

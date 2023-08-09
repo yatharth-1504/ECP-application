@@ -10,10 +10,15 @@ export function Resource() {
 
   const [title, setTitle] = useState("");
   const [description, setDesc] = useState("");
+  const [course, setCourse] = useState("");
+  
+ const handleDropdownChange = (event) => {
+   setCourse(event.target.value);
+ };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    fetch("http://13.127.252.0:8000/resource/createresource", {
+    fetch("http://localhost:8000/resource/createresource", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,19 +27,21 @@ export function Resource() {
       body: JSON.stringify({
         title: title,
         description: description,
+        course: course,
       }),
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error(e);
+          console.log(e);
         }
         return response.json();
       })
       .then((data) => {
         navigate("/home", { state: { token } });
+        console.log(data);
       })
       .catch((e) => {
-        throw new Error(e);
+        console.log(e);
       });
   };
 
@@ -49,6 +56,7 @@ export function Resource() {
           required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          placeholder="Enter Text Title"
         />
         <label htmlFor="description">Description:</label>
         <input
@@ -56,7 +64,37 @@ export function Resource() {
           required
           value={description}
           onChange={(e) => setDesc(e.target.value)}
+          placeholder="Enter Link Description"
         />
+        <label htmlFor="dropdown">Select Course:</label>
+        <select
+          id="dropdown"
+          value={course}
+          onChange={handleDropdownChange}
+          style={{
+            width: "100%",
+            height: "42px",
+            paddingLeft: "10px",
+            borderRadius: "5px",
+            marginTop: "10px",
+            marginBottom: "10px",
+          }}
+        >
+          <option value="">--Select Course--</option>
+          <option value="CA Foundation">CA Foundation</option>
+          <option value="CA Intermediate">CA Intermediate</option>
+          <option value="CA Final">CA Final</option>
+          <option value="CS-EET">CS-EET</option>
+          <option value="CS Executive">CS Executive</option>
+          <option value="CMA Foundation">CMA Foundation</option>
+          <option value="CMA Intermediate">CMA Intermediate</option>
+          <option value="CMA Final">CMA Final</option>
+          <option value="B. Com">B. Com</option>
+          <option value="M. Com">M. Com</option>
+          <option value="Computer Course">Computer Course</option>
+          <option value="11th">11th</option>
+          <option value="12th">12th</option>
+        </select>
         <div className="btn-wrapper">
           <button className="submit-btn" type="submit">
             Submit

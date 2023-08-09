@@ -23,7 +23,7 @@ export function Login() {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error(e);
+          console.log(e);
         }
         return response.json();
       })
@@ -31,7 +31,7 @@ export function Login() {
         navigate("/home", { state: { token: data.token } });
       })
       .catch((e) => {
-        throw new Error(e);
+        console.log(e);
       });
   };
 

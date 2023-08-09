@@ -1,4 +1,3 @@
-
 import { createStackNavigator } from "@react-navigation/stack";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { Home } from "./screens/Home";
@@ -7,7 +6,8 @@ import { Profile } from "./screens/Profile";
 import ForgotPassword from "./screens/ForgotPassword";
 import ResetPassword from "./screens/ResetPassword";
 import ResetPasswordNew from "./screens/ResetPasswordNew";
-
+import { CredentialsContext } from "./components/CredentialsContext";
+import { StatusBar } from "expo-status-bar";
 const Stack = createStackNavigator();
 
 const theme = {
@@ -20,18 +20,40 @@ const theme = {
 
 export default function ReactNavigation() {
   return (
-    <NavigationContainer theme={theme}>
-      <Stack.Navigator
-        screenOptions={{ headerShown: false }}
-        initialRouteName="Login"
-      >
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-        <Stack.Screen name="ResetPassword" component={ResetPassword} />
-        <Stack.Screen name="ResetPasswordNew" component={ResetPasswordNew} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <CredentialsContext.Consumer>
+      {({ storeCredentials, setStoreCredentials }) => (
+        <NavigationContainer theme={theme}>
+          <StatusBar
+            style={{
+              backgroundColor: "black",
+            }}
+          />
+          <Stack.Navigator
+            screenOptions={{ headerShown: false }}
+            initialRouteName="Login"
+          >
+            {storeCredentials ? (
+              <>
+                <Stack.Screen name="Home" component={Home} />
+                <Stack.Screen name="Profile" component={Profile} />
+              </>
+            ) : (
+              <>
+                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen
+                  name="ForgotPassword"
+                  component={ForgotPassword}
+                />
+                <Stack.Screen name="ResetPassword" component={ResetPassword} />
+                <Stack.Screen
+                  name="ResetPasswordNew"
+                  component={ResetPasswordNew}
+                />
+              </>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      )}
+    </CredentialsContext.Consumer>
   );
 }

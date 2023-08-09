@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, FlatList, Text } from "react-native";
+//credentials context
+import { CredentialsContext } from "./CredentialsContext";
+// asyncstorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function NoticeBoard({ noticeBoardData }) {
+  //credentials context
+  const { storeCredentials, setStoreCredentials } =
+    useContext(CredentialsContext);
+
+  const courseTaken = storeCredentials.data.student.course;
   const renderNoticeBoardItem = ({ item }) => (
-    <View style={styles.noticeBoardCard}>
-      <Text style={styles.noticeBoardTitle}>{item.title}</Text>
-      <Text style={styles.noticeBoardContent}>{item.description}</Text>
-    </View>
+    <>
+      {item.course === courseTaken ? (
+        <View style={styles.noticeBoardCard}>
+          <Text style={styles.noticeBoardTitle}>{item.title}</Text>
+          <Text style={styles.noticeBoardContent}>{item.description}</Text>
+        </View>
+      ) : (
+        ""
+      )}
+    </>
   );
   return (
     <View style={styles.noticeBoard}>

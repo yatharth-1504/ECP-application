@@ -1,17 +1,34 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Linking, StyleSheet, FlatList, Text } from "react-native";
+//credentials context
+import { CredentialsContext } from "./CredentialsContext";
+// asyncstorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function ResourceBoard({ resourceBoardData }) {
+  //credentials context
+  const { storeCredentials, setStoreCredentials } =
+    useContext(CredentialsContext);
+
+  const courseTaken = storeCredentials.data.student.course;
   const renderResourceBoardItem = ({ item }) => (
-    <View style={styles.resourceBoardCard}>
-      <Text style={styles.resourceBoardTitle}>{item.title}</Text>
-      <Text
-        style={styles.resourceBoardContent}
-        onPress={() => Linking.openURL(item.description)}
-      >
-        {item.description}
-      </Text>
-    </View>
+    <>
+      {item.course === courseTaken ? (
+        <View style={styles.resourceBoardCard}>
+          {console.log(courseTaken)}
+
+          <Text style={styles.resourceBoardTitle}>{item.title}</Text>
+          <Text
+            style={styles.resourceBoardContent}
+            onPress={() => Linking.openURL(item.description)}
+          >
+            {item.description}
+          </Text>
+        </View>
+      ) : (
+        ""
+      )}
+    </>
   );
   return (
     <View style={styles.resourceBoard}>

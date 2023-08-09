@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -7,10 +7,27 @@ import {
   Image,
   StatusBar,
   TouchableOpacity,
+  Linking,
 } from "react-native";
+//credentials context
+import { CredentialsContext } from "../components/CredentialsContext";
+// asyncstorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function Profile({ navigation, route }) {
+  const { storeCredentials, setStoreCredentials } =
+    useContext(CredentialsContext);
+  const courseTaken = storeCredentials.data.student.course;
+
   const user = route.params.user;
+  //credentials context
+  const clearLogin = () => {
+    AsyncStorage.removeItem("flowerCribCredentials")
+      .then(() => {
+        setStoreCredentials("");
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -32,12 +49,7 @@ export function Profile({ navigation, route }) {
           >
             <Text style={styles.headerText}>X</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.header}
-            onPress={(e) =>
-              navigation.navigate("Login", { token: route.params.token })
-            }
-          >
+          <TouchableOpacity style={styles.header} onPress={clearLogin}>
             <Text style={styles.signout}>sign-out</Text>
           </TouchableOpacity>
         </View>
@@ -69,6 +81,129 @@ export function Profile({ navigation, route }) {
           <View style={styles.infoItem}>
             <Text style={styles.infoLabel}>Address</Text>
             <Text style={styles.infoValue}>{user.address}</Text>
+          </View>
+          <View style={styles.infoItem}>
+            <Text style={styles.infoLabel}>Class Link</Text>
+            {courseTaken === "CA Foundation" ? (
+              <Text
+                style={styles.infoValue}
+                onPress={() =>
+                  Linking.openURL("https://meet.google.com/wag-zcze-cgq")
+                }
+              >
+                https://meet.google.com/wag-zcze-cgq
+              </Text>
+            ) : courseTaken === "CA Intermediate" ? (
+              <Text
+                style={styles.infoValue}
+                onPress={() =>
+                  Linking.openURL("https://meet.google.com/bbu-faxm-ota")
+                }
+              >
+                https://meet.google.com/bbu-faxm-ota
+              </Text>
+            ) : courseTaken === "CA Final" ? (
+              <Text
+                style={styles.infoValue}
+                onPress={() =>
+                  Linking.openURL("https://meet.google.com/uks-sriv-hiq")
+                }
+              >
+                https://meet.google.com/uks-sriv-hiq
+              </Text>
+            ) : courseTaken === "CS-EET" ? (
+              <Text
+                style={styles.infoValue}
+                onPress={() =>
+                  Linking.openURL("https://meet.google.com/uhr-joov-nor")
+                }
+              >
+                https://meet.google.com/uhr-joov-nor
+              </Text>
+            ) : courseTaken === "CS Executive" ? (
+              <Text
+                style={styles.infoValue}
+                onPress={() =>
+                  Linking.openURL("https://meet.google.com/pan-cdpm-yzi")
+                }
+              >
+                https://meet.google.com/pan-cdpm-yzi
+              </Text>
+            ) : courseTaken === "CMA Foundation" ? (
+              <Text
+                style={styles.infoValue}
+                onPress={() =>
+                  Linking.openURL("https://meet.google.com/fza-ugym-hem")
+                }
+              >
+                https://meet.google.com/fza-ugym-hem
+              </Text>
+            ) : courseTaken === "CMA Intermediate" ? (
+              <Text
+                style={styles.infoValue}
+                onPress={() =>
+                  Linking.openURL("https://meet.google.com/ycg-kccc-roz")
+                }
+              >
+                https://meet.google.com/ycg-kccc-roz
+              </Text>
+            ) : courseTaken === "CMA Final" ? (
+              <Text
+                style={styles.infoValue}
+                onPress={() =>
+                  Linking.openURL("https://meet.google.com/vwy-bpuv-qyz")
+                }
+              >
+                https://meet.google.com/vwy-bpuv-qyz
+              </Text>
+            ) : courseTaken === "B. Com" ? (
+              <Text
+                style={styles.infoValue}
+                onPress={() =>
+                  Linking.openURL("https://meet.google.com/pcs-mnzt-wbn")
+                }
+              >
+                https://meet.google.com/pcs-mnzt-wbn
+              </Text>
+            ) : courseTaken === "M. Com" ? (
+              <Text
+                style={styles.infoValue}
+                onPress={() =>
+                  Linking.openURL("https://meet.google.com/bka-sqmj-gfn")
+                }
+              >
+                https://meet.google.com/bka-sqmj-gfn
+              </Text>
+            ) : courseTaken === "Computer Course" ? (
+              <Text
+                style={styles.infoValue}
+                onPress={() =>
+                  Linking.openURL("https://meet.google.com/ipe-obem-osr")
+                }
+              >
+                https://meet.google.com/ipe-obem-osr
+              </Text>
+            ) : courseTaken === "11th" ? (
+              <Text
+                style={styles.infoValue}
+                onPress={() =>
+                  Linking.openURL("https://meet.google.com/qxr-yxom-eck")
+                }
+              >
+                https://meet.google.com/qxr-yxom-eck
+              </Text>
+            ) : courseTaken === "12th" ? (
+              <Text
+                style={styles.infoValue}
+                onPress={() =>
+                  Linking.openURL("https://meet.google.com/isd-egcb-bfm")
+                }
+              >
+                https://meet.google.com/isd-egcb-bfm
+              </Text>
+            ) : (
+              ""
+            )}
           </View>
         </View>
       </View>

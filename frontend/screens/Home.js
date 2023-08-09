@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Lottie from "lottie-react-native";
 import {
   View,
@@ -12,21 +12,31 @@ import { Header } from "../components/Header";
 import { NoticeBoard } from "../components/Notice";
 import { ResourceBoard } from "../components/Resource";
 import { Refresh } from "../components/Refresh";
+//credentials context
+import { CredentialsContext } from "../components/CredentialsContext";
+// asyncstorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function Home({ navigation, route }) {
   const [notices, setNotices] = useState(null);
   const [resources, setResources] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const [user, setUser] = useState(null);
-
-  const token = route.params.token;
+  //credentials context
+  const { storeCredentials, setStoreCredentials } =
+    useContext(CredentialsContext);
+  console.log(storeCredentials.data.jwtToken);
+  console.log(storeCredentials.data.student.course);
+  const courseTaken = storeCredentials.data.student.course;
+  const token = storeCredentials.data.jwtToken;
+  // const token = route.params.token;
 
   useEffect(() => {
     fetch("http://13.127.252.0:8000/auth/getme", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: token,
+        authorization: storeCredentials.data.jwtToken,
       },
     })
       .then((response) => {
@@ -41,11 +51,11 @@ export function Home({ navigation, route }) {
       .catch((e) => {
         console.log(e);
       }),
-      fetch("http://13.127.252.0:8000/notice/getnotices", {
+      fetch("http://192.168.0.145:8000/notice/getnotices", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          authorization: token,
+          authorization: storeCredentials.data.jwtToken,
         },
       })
         .then((response) => {
@@ -56,15 +66,16 @@ export function Home({ navigation, route }) {
         })
         .then((data) => {
           setNotices(data.notices);
+          console.log(data.notices);
         })
         .catch((e) => {
           console.log(e);
         });
-    fetch("http://13.127.252.0:8000/resource/getresources", {
+    fetch("http://192.168.0.145:8000/resource/getresources", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: token,
+        authorization: storeCredentials.data.jwtToken,
       },
     })
       .then((response) => {
@@ -75,6 +86,7 @@ export function Home({ navigation, route }) {
       })
       .then((data) => {
         setResources(data.resources);
+        console.log(data.resources);
       })
       .catch((e) => {
         console.log(e);
@@ -93,9 +105,14 @@ export function Home({ navigation, route }) {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         {!!user && <Header onNav={onNav} user={user} />}
-        {!!user && !!notices && <NoticeBoard noticeBoardData={notices} />}
+        {!!user && !!notices && (
+          <NoticeBoard noticeBoardData={notices} coursetaken={courseTaken} />
+        )}
         {!!user && !!notices && !!resources && (
-          <ResourceBoard resourceBoardData={resources} />
+          <ResourceBoard
+            resourceBoardData={resources}
+            coursetaken={courseTaken}
+          />
         )}
 
         <Refresh handleRefresh={handleRefresh} />

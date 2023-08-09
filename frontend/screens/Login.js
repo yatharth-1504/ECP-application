@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -11,10 +11,19 @@ import { StatusBar } from "expo-status-bar";
 import { PageLogo } from "../components/styles";
 import { Input, Button } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
+// asyncstorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+//credentials context
+import { CredentialsContext } from "../components/CredentialsContext";
 
 export function Login({ navigation }) {
   const [email, setEmail] = useState();
   const [password, setPass] = useState();
+
+  //credentials context
+  const { storeCredentials, setStoreCredentials } =
+    useContext(CredentialsContext);
 
   const onLogin = () => {
     fetch("http://13.127.252.0:8000/auth/signin", {
@@ -34,12 +43,26 @@ export function Login({ navigation }) {
         return response.json();
       })
       .then((data) => {
-        navigation.navigate("Home", { token: data.jwtToken });
+        console.log(data);
+        // navigation.navigate("Home", { token: data.jwtToken });
+        // const result = response.data;
+        persistLogin({ data });
       })
       .catch((e) => {
         console.log(e.message);
       });
   };
+
+ const persistLogin = (credentials, message) => {
+   AsyncStorage.setItem("flowerCribCredentials", JSON.stringify(credentials))
+     .then(() => {
+       console.log(credentials);
+       setStoreCredentials(credentials);
+     })
+     .catch((error) => {
+       console.log(error);
+     });
+ };
 
   return (
     <View style={styles.container}>

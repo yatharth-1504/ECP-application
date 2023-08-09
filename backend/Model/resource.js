@@ -8,6 +8,9 @@ const resourceSchema = new mongoose.Schema(
     description: {
       type: String,
     },
+    course: {
+      type: String,
+    }
     // photo: {
     //   type: String,
     // },
